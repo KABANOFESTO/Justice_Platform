@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "votes") // Specify table name explicitly
+@Table(name = "votes") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +18,10 @@ public class Vote {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Replaces raw Integer userId
-
+    private User user; 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)
-    private Article article; // Replaces raw Integer articleId
+    private Article article; 
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)

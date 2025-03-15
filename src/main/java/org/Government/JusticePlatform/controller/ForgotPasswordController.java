@@ -35,13 +35,13 @@ public class ForgotPasswordController {
     public ResponseEntity<String> processForgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
 
-        // Check if email is provided
+        
         if (email == null || email.isEmpty()) {
             logger.warn("Email is missing in the request.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is required.");
         }
 
-        // Fetch the user by email
+       
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (!userOpt.isPresent()) {
             logger.warn("User with email {} not found.", email);
@@ -50,17 +50,16 @@ public class ForgotPasswordController {
 
         User user = userOpt.get();
 
-        // Generate a reset token
+       
         String token = UUID.randomUUID().toString();
         user.setResetPasswordToken(token);
-        userRepository.save(user); // Save the user with the reset token
+        userRepository.save(user); 
 
-        // Prepare and send the reset password email
         String resetLink = "http://127.0.0.1:5501/reset.html?token=" + token;
         String subject = "Reset Password";
-        String body = "Hello from VubaRide!\n\nWe received a request to reset your password for your VubaRide account. To reset it, simply click the link below:\n"
+        String body = "Hello from Justice Platform!\n\nWe received a request to reset your password for your VubaRide account. To reset it, simply click the link below:\n"
                 + resetLink
-                + "\n\nIf you didn't request a password reset, please ignore this message.\n\nThank you for riding with us!\n\nBest regards,\nThe VubaRide Team";
+                + "\n\nIf you didn't request a password reset, please ignore this message.\n\nThank you for riding with us!\n\nBest regards,\nThe Justice Platform Team";
 
         try {
             emailService.sendSimpleEmail(user.getEmail(), subject, body);
@@ -77,13 +76,12 @@ public class ForgotPasswordController {
         String token = request.get("token");
         String newPassword = request.get("newPassword");
 
-        // Validate input
+        
         if (token == null || token.isEmpty() || newPassword == null || newPassword.isEmpty()) {
             logger.warn("Token or new password is missing in the request.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token and new password are required.");
         }
 
-        // Find user by reset token
         Optional<User> userOpt = userRepository.findByResetPasswordToken(token);
         if (!userOpt.isPresent()) {
             logger.warn("Invalid or expired reset token: {}", token);
@@ -93,14 +91,13 @@ public class ForgotPasswordController {
         try {
             User user = userOpt.get();
 
-            // Update password
+          
             user.setPassword(passwordEncoder.encode(newPassword));
-            user.setResetPasswordToken(null); // Clear the reset token
+            user.setResetPasswordToken(null); 
             userRepository.save(user);
 
             logger.info("Password successfully reset for user: {}", user.getEmail());
 
-            // Send confirmation email
             String subject = "Password Reset Successful";
             String body = "Hello from VubaRide!\n\nYour password has been successfully reset. If you did not perform this action, please contact our support team immediately.\n\nBest regards,\nThe VubaRide Team";
             

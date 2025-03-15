@@ -4,7 +4,6 @@ import org.Government.JusticePlatform.model.Vote;
 import org.Government.JusticePlatform.model.VoteType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-
 import java.util.List;
 import java.util.Optional;
 

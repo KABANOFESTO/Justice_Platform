@@ -23,7 +23,7 @@ public class WebConfig {
                         .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "Accept")
                         .exposedHeaders("Authorization")
                         .allowCredentials(true)
-                        .maxAge(3600); // 1 hour
+                        .maxAge(3600); 
 
                 registry.addMapping("/auth/**")
                         .allowedOrigins(
@@ -35,7 +35,7 @@ public class WebConfig {
                         .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "Accept")
                         .exposedHeaders("Authorization")
                         .allowCredentials(true)
-                        .maxAge(3600); // 1 hour
+                        .maxAge(3600);
             }
         };
     }

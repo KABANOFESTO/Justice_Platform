@@ -39,11 +39,11 @@ public class Comment {
     protected void onCreate() {
         Date now = new Date();
         createdAt = now;
-        updatedAt = now; // Initialize updatedAt when creating a comment
+        updatedAt = now; 
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date(); // Automatically update timestamp when modifying a comment
+        updatedAt = new Date();
     }
 }

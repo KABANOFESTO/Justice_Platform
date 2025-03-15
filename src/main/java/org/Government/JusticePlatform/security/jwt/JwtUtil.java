@@ -29,34 +29,34 @@ public class JwtUtil {
 
     @PostConstruct
     private void init() {
-        // Generate secret key from the JWT secret
+        
         this.secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
-    // Generate JWT token based on user
+   
     public String generateToken(User user) {
         return Jwts.builder()
-                .setSubject(user.getEmail())  // Set the user's email as the subject
-                .claim("role", user.getRole().name())  // Include user role as a claim
-                .setIssuedAt(new Date())  // Token creation time
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))  // Set expiration time
-                .signWith(secretKey, SignatureAlgorithm.HS256)  // Sign token with the secret key
-                .compact();  // Compact to return a complete JWT token string
+                .setSubject(user.getEmail())  
+                .claim("role", user.getRole().name())  
+                .setIssuedAt(new Date()) 
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))  
+                .signWith(secretKey, SignatureAlgorithm.HS256)  
+                .compact();  
     }
 
-    // Extract claims from the token
+   
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secretKey)  // Set the key for signature validation
+                .setSigningKey(secretKey)  
                 .build()
                 .parseClaimsJws(token)
-                .getBody();  // Return the claims
+                .getBody();  
     }
 
-    // Validate the token
+   
     public boolean validateToken(String token) {
         try {
-            extractClaims(token); // Check if the claims can be extracted; if not, it will throw an exception
+            extractClaims(token); 
             return true;
         } catch (Exception e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
@@ -64,12 +64,12 @@ public class JwtUtil {
         return false;
     }
 
-    // Extract username from the token
+  
     public String getUserNameFromToken(String token) {
         return extractClaims(token).getSubject();
     }
 
-    // Extract role from the token
+
     public String getRoleFromToken(String token) {
         return extractClaims(token).get("role", String.class);
     }
